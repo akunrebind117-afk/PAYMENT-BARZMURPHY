@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Gateway - M.AXXXX FAJXX</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+        }
+
+        :root {
+            --primary-dark: #0a192f;
+            --primary-blue: #1e3a8a;
+            --accent-blue: #3b82f6;
+            --light-blue: #eff6ff;
+            --pure-white: #ffffff;
+            --gray-light: #f8fafc;
+            --gray-medium: #e2e8f0;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --shadow: rgba(10, 25, 47, 0.1);
+            --success: #10b981;
+            --gradient: linear-gradient(135deg, #0a192f 0%, #1e3a8a 100%);
+        }
+
+        body {
+            background-color: var(--gray-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: var(--gradient);
+            color: var(--pure-white);
+            padding: 2.5rem 0;
+            text-align: center;
+            box-shadow: 0 6px 20px rgba(10, 25, 47, 0.2);
+            border-radius: 0 0 25px 25px;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #3b82f6, #60a5fa, #93c5fd);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 1rem;
+        }
+
+        .logo i {
+            font-size: 2.5rem;
+            color: #60a5fa;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 14px;
+            border-radius: 50%;
+            backdrop-filter: blur(10px);
+        }
+
+        .logo h1 {
+            font-size: 2.3rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            background: linear-gradient(90deg, #fff, #93c5fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .tagline {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Payment Cards */
+        .payment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 3rem;
+        }
+
+        .payment-card {
+            background-color: var(--pure-white);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 25px var(--shadow);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid var(--gray-medium);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .payment-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--accent-blue), #60a5fa);
+        }
+
+        .payment-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(10, 25, 47, 0.15);
+        }
+
+        .payment-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .payment-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--light-blue), #dbeafe);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-blue);
+            font-size: 1.5rem;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+        }
+
+        .payment-info h3 {
+            font-size: 1.3rem;
+            color: var(--primary-dark);
+            margin-bottom: 3px;
+        }
+
+        .payment-info p {
+            color: var(--text-light);
+            font-size: 0.85rem;
+        }
+
+        .account-details {
+            background: linear-gradient(135deg, var(--light-blue), #e0f2fe);
+            padding: 18px;
+            border-radius: 15px;
+            margin-top: 15px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .account-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed rgba(59, 130, 246, 0.2);
+        }
+
+        .account-row:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .label {
+            font-weight: 600;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
+        }
+
+        .value {
+            font-family: 'Courier New', monospace;
+            color: var(--primary-blue);
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+            word-break: break-all;
+            text-align: right;
+        }
+
+        .copy-btn {
+            background: linear-gradient(135deg, var(--accent-blue), #2563eb);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+            margin-top: 5px;
+        }
+
+        .copy-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(59, 130, 246, 0.35);
+        }
+
+        /* QRIS Section */
+        .qris-section {
+            margin: 3rem 0;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 2rem;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--accent-blue);
+            color: var(--primary-dark);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-blue), transparent);
+        }
+
+        .section-title i {
+            color: var(--accent-blue);
+            font-size: 1.5rem;
+        }
+
+        .qris-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .qris-card {
+            background-color: var(--pure-white);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 25px var(--shadow);
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid var(--gray-medium);
+        }
+
+        .qris-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(10, 25, 47, 0.15);
+        }
+
+        .qris-image-container {
+            background: var(--gray-light);
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            border: 2px dashed var(--gray-medium);
+        }
+
+        .qris-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .qris-label {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            padding: 10px 22px;
+            border-radius: 50px;
+            display: inline-block;
+            font-weight: 700;
+            margin: 10px 0;
+            letter-spacing: 1px;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+        }
+
+        .qris-desc {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-top: 8px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--gradient);
+            color: var(--pure-white);
+            padding: 2.5rem 0 2rem;
+            text-align: center;
+            margin-top: 4rem;
+            border-radius: 25px 25px 0 0;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .footer-content .logo h2 {
+            font-size: 1.5rem;
+            background: linear-gradient(90deg, #fff, #93c5fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .contact-info {
+            display: flex;
+            gap: 30px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 18px;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            font-size: 0.9rem;
+        }
+
+        .copyright {
+            margin-top: 25px;
+            opacity: 0.8;
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: 20px;
+            width: 100%;
+        }
+
+        /* Animations */
+        @keyframes copied {
+            0% { background: linear-gradient(135deg, var(--accent-blue), #2563eb); }
+            50% { background: linear-gradient(135deg, var(--success), #34d399); }
+            100% { background: linear-gradient(135deg, var(--accent-blue), #2563eb); }
+        }
+
+        .copied {
+            animation: copied 0.5s ease;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .payment-grid,
+            .qris-container {
+                grid-template-columns: 1fr;
+            }
+
+            .logo h1 {
+                font-size: 1.9rem;
+            }
+
+            .contact-info {
+                flex-direction: column;
+                gap: 10px;
+                align-items: center;
+            }
+
+            .account-row {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            .value {
+                text-align: left;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+                <h1>PAYMENT GATEWAY</h1>
+            </div>
+            <p class="tagline">Layanan pembayaran digital yang aman, cepat, dan terpercaya. Transfer kapan saja dengan berbagai metode pembayaran yang tersedia.</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Payment Methods -->
+        <h2 class="section-title">
+            <i class="fas fa-wallet"></i>
+            Metode Pembayaran
+        </h2>
+
+        <div class="payment-grid">
+            <!-- DANA -->
+            <div class="payment-card">
+                <div class="payment-header">
+                    <div class="payment-icon" style="background: linear-gradient(135deg, #1087ff, #0d6efd); color: white;">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="payment-info">
+                        <h3>DANA</h3>
+                        <p>Transfer via aplikasi DANA</p>
+                    </div>
+                </div>
+                <div class="account-details">
+                    <div class="account-row">
+                        <span class="label"><i class="fas fa-phone"></i> Nomor:</span>
+                        <span class="value" id="dana-number">083180699852</span>
+                    </div>
+                    <div class="account-row">
+                        <span class="label"><i class="fas fa-user"></i> Atas Nama:</span>
+                        <span class="value">M.AXXXX FAJXX</span>
+                    </div>
+                    <div class="account-row">
+                        <button class="copy-btn" data-clipboard-target="#dana-number">
+                            <i class="fas fa-copy"></i> Salin Nomor
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GOPAY -->
+            <div class="payment-card">
+                <div class="payment-header">
+                    <div class="payment-icon" style="background: linear-gradient(135deg, #00a6e3, #0088cc); color: white;">
+                        <i class="fab fa-google-wallet"></i>
+                    </div>
+                    <div class="payment-info">
+                        <h3>GOPAY</h3>
+                        <p>Transfer via aplikasi Gojek</p>
+                    </div>
+                </div>
+                <div class="account-details">
+                    <div class="account-row">
+                        <span class="label"><i class="fas fa-phone"></i> Nomor:</span>
+                        <span class="value" id="gopay-number">0895622982458</span>
+                    </div>
+                    <div class="account-row">
+                        <span class="label"><i class="fas fa-user"></i> Atas Nama:</span>
+                        <span class="value">M.AXXXX FAJXX</span>
+                    </div>
+                    <div class="account-row">
+                        <button class="copy-btn" data-clipboard-target="#gopay-number">
+                            <i class="fas fa-copy"></i> Salin Nomor
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEABANK -->
+            <div class="payment-card">
+                <div class="payment-header">
+                    <div class="payment-icon" style="background: linear-gradient(135deg, #0a2540, #1e3a8a); color: white;">
+                        <i class="fas fa-university"></i>
+                    </div>
+                    <div class="payment-info">
+                        <h3>SEABANK</h3>
+                        <p>Transfer via aplikasi SeaBank</p>
+                    </div>
+                </div>
+                <div class="account-details">
+                    <div class="account-row">
+                        <span class="label"><i class="fas fa-credit-card"></i> Nomor Rekening:</span>
+                        <span class="value" id="seabank-number">901824018945</span>
+                    </div>
+                    <div class="account-row">
+                        <span class="label"><i class="fas fa-user"></i> Atas Nama:</span>
+                        <span class="value">M.AXXXX FAJXX</span>
+                    </div>
+                    <div class="account-row">
+                        <button class="copy-btn" data-clipboard-target="#seabank-number">
+                            <i class="fas fa-copy"></i> Salin Nomor
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- QRIS Section -->
+        <div class="qris-section">
+            <h2 class="section-title">
+                <i class="fas fa-qrcode"></i>
+                QRIS Payment
+            </h2>
+
+            <div class="qris-container">
+                <!-- QRIS GOPAY -->
+                <div class="qris-card">
+                    <div class="qris-image-container">
+                        <img src="https://i.imgur.com/czTpls0.png" 
+                             alt="QRIS GOPAY" 
+                             class="qris-image"
+                             onerror="this.src='https://via.placeholder.com/300x300/1e3a8a/ffffff?text=QRIS+GOPAY'">
+                    </div>
+                    <div class="qris-label">QRIS GOPAY</div>
+                    <div class="qris-desc">
+                        Scan QRIS di atas untuk pembayaran via aplikasi GoPay.
+                    </div>
+                </div>
+
+                <!-- QRIS KHUSUS E-WALLET -->
+                <div class="qris-card">
+                    <div class="qris-image-container">
+                        <img src="https://i.imgur.com/fl36j7X.jpeg" 
+                             alt="QRIS KHUSUS E-WALLET" 
+                             class="qris-image"
+                             onerror="this.src='https://via.placeholder.com/300x300/1e3a8a/ffffff?text=QRIS+E-WALLET'">
+                    </div>
+                    <div class="qris-label">QRIS KHUSUS E-WALLET</div>
+                    <div class="qris-desc">
+                        Scan QRIS di atas untuk pembayaran via e-wallet yang mendukung QRIS.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="logo">
+                    <i class="fas fa-shield-alt"></i>
+                    <h2>PAYMENT GATEWAY</h2>
+                </div>
+                <p>Layanan pembayaran digital yang aman, cepat, dan terpercaya</p>
+
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-clock"></i>
+                        <span>Layanan 24/7</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>100% Aman & Terpercaya</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-bolt"></i>
+                        <span>Proses Cepat</span>
+                    </div>
+                </div>
+
+                <p class="copyright">
+                    &copy; 2025 Payment Gateway. Semua hak dilindungi.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Copy to Clipboard
+        document.querySelectorAll('.copy-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-clipboard-target');
+                const targetElement = document.querySelector(targetId);
+                const textToCopy = targetElement.textContent.trim();
+
+                const tempTextArea = document.createElement('textarea');
+                tempTextArea.value = textToCopy;
+                document.body.appendChild(tempTextArea);
+                tempTextArea.select();
+                tempTextArea.setSelectionRange(0, 99999);
+                document.execCommand('copy');
+                document.body.removeChild(tempTextArea);
+
+                const originalText = this.innerHTML;
+                this.innerHTML = '<i class="fas fa-check"></i> Tersalin!';
+                this.classList.add('copied');
+
+                setTimeout(() => {
+                    this.innerHTML = originalText;
+                    this.classList.remove('copied');
+                }, 2000);
+            });
+        });
+
+        // Handle image loading errors
+        document.querySelectorAll('.qris-image').forEach(img => {
+            img.addEventListener('error', function() {
+                this.src = 'https://via.placeholder.com/300x300/1e3a8a/ffff
